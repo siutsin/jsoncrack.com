@@ -1,5 +1,5 @@
 # Builder
-FROM node:18-alpine as builder
+FROM node:20-alpine AS builder
 # Reference :: https://pnpm.io/docker
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -15,6 +15,6 @@ COPY . /src/
 RUN pnpm build
 
 # App
-FROM nginxinc/nginx-unprivileged
+FROM nginxinc/nginx-unprivileged:1.27.2
 COPY --chown=nginx:nginx --from=builder /src/out /app
 COPY default.conf /etc/nginx/conf.d/default.conf
