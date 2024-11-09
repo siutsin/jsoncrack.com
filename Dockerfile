@@ -14,9 +14,9 @@ COPY . .
 RUN corepack enable pnpm && pnpm run build
 
 # Stage 3: Production image
-FROM nginxinc/nginx-unprivileged:stable AS production
+FROM ghcr.io/nginxinc/nginx-unprivileged:stable AS production
 WORKDIR /app
-COPY --from=builder /app/out /app
+COPY --chown=nginx:nginx --from=builder /app/out /app
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080
